@@ -1,0 +1,7 @@
+{
+  "name": "Supernova",
+  "description": "Visualizador de audio en tiempo real con Web Audio API + Canvas y temas generados por IA (Gemini).",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}

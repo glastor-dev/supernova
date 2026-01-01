@@ -1,0 +1,422 @@
+# CODEOWNERS
+# Documentación: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+# Proyecto: Supernova
+
+# Owner por defecto para todo el repo
+* @glastor-dev
+
+# CI / templates
+.github/ @glastor-dev
+
+# Configuración y dependencias
+package.json @glastor-dev
+package-lock.json @glastor-dev
+tsconfig.json @glastor-dev
+vite.config.ts @glastor-dev
+
+# App y código fuente (estructura real del repo)
+/api/ @glastor-dev
+/components/ @glastor-dev
+/services/ @glastor-dev
+*.ts @glastor-dev
+*.tsx @glastor-dev
+
+# Documentación y compliance
+README.md @glastor-dev
+CHANGELOG.md @glastor-dev
+CONTRIBUTING.md @glastor-dev
+LICENSE @glastor-dev# ═══════════════════════════════════════════════════════════════════════════
+# CODE OWNERS CONFIGURATION
+# ═══════════════════════════════════════════════════════════════════════════
+#
+# Project: Supernova - Audio Visualizer + AI Themes
+# Purpose: Automatic code review assignment and ownership definition
+# Documentation: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+#
+# This file defines individuals or teams responsible for reviewing and
+# approving changes to specific files or directories in the repository.
+#
+# IMPORTANT NOTES:
+# - Code owners are automatically requested for review when PRs modify their files
+# - At least one code owner approval is required before merging (if branch protection is enabled)
+# - Order matters: Last matching pattern takes precedence
+# - Use team mentions (@org/team) for better scalability in organizations
+#
+# ═══════════════════════════════════════════════════════════════════════════
+
+# ─────────────────────────────────────────────────────────────────────────────
+# DEFAULT OWNERSHIP
+# ─────────────────────────────────────────────────────────────────────────────
+
+* @glastor-dev
+
+# ─────────────────────────────────────────────────────────────────────────────
+# DOCUMENTATION
+# ─────────────────────────────────────────────────────────────────────────────
+
+*.md @glastor-dev
+README.md @glastor-dev
+CONTRIBUTING.md @glastor-dev
+CHANGELOG.md @glastor-dev
+
+# ─────────────────────────────────────────────────────────────────────────────
+# CONFIGURATION FILES
+# ─────────────────────────────────────────────────────────────────────────────
+
+.github/ @glastor-dev
+.gitignore @glastor-dev
+package.json @glastor-dev
+package-lock.json @glastor-dev
+vite.config.ts @glastor-dev
+eslint.config.js @glastor-dev
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SOURCE CODE
+# ─────────────────────────────────────────────────────────────────────────────
+
+/api/ @glastor-dev
+/src/ @glastor-dev
+*.ts @glastor-dev
+*.tsx @glastor-dev
+*.js @glastor-dev
+*.css @glastor-dev
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SECURITY & COMPLIANCE
+# ─────────────────────────────────────────────────────────────────────────────
+
+SECURITY.md @glastor-dev
+LICENSE @glastor-dev
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SPECIAL FILES
+# ─────────────────────────────────────────────────────────────────────────────
+
+CODEOWNERS @glastor-dev
+.github/FUNDING.yml @glastor-dev
+.github/ISSUE_TEMPLATE/ @glastor-dev
+.github/PULL_REQUEST_TEMPLATE.md @glastor-dev
+CODE_OF_CONDUCT.md @glastor-dev
+SUPPORT.md @glastor-dev
+
+# ═══════════════════════════════════════════════════════════════════════════
+# END OF CODE OWNERS CONFIGURATION
+# ═══════════════════════════════════════════════════════════════════════════
+
+#
+# This file defines individuals or teams responsible for reviewing and
+# approving changes to specific files or directories in the repository.
+#
+# IMPORTANT NOTES:
+# - Code owners are automatically requested for review when PRs modify their files
+# - At least one code owner approval is required before merging (if branch protection is enabled)
+# - Order matters: Last matching pattern takes precedence
+# - Use team mentions (@org/team) for better scalability in organizations
+#
+# ═══════════════════════════════════════════════════════════════════════════
+
+# ─────────────────────────────────────────────────────────────────────────────
+# DEFAULT OWNERSHIP
+# ─────────────────────────────────────────────────────────────────────────────
+# The following rule applies to all files unless overridden by more specific rules below
+# This ensures that at least one maintainer reviews every change
+
+* @glastor-dev
+
+# ─────────────────────────────────────────────────────────────────────────────
+# DOCUMENTATION
+# ─────────────────────────────────────────────────────────────────────────────
+# All documentation files require review from documentation maintainers
+# to ensure consistency, accuracy, and quality
+
+*.md @glastor-dev
+/docs/ @glastor-dev
+/wiki/ @glastor-dev
+README.md @glastor-dev
+CONTRIBUTING.md @glastor-dev
+CHANGELOG.md @glastor-dev
+
+# ─────────────────────────────────────────────────────────────────────────────
+# CONFIGURATION FILES
+# ─────────────────────────────────────────────────────────────────────────────
+# Critical configuration files that affect project behavior, CI/CD, or deployment
+# Require senior maintainer approval to prevent misconfigurations
+
+# Repository configuration
+.github/ @glastor-dev
+.gitignore @glastor-dev
+.gitattributes @glastor-dev
+
+# CI/CD pipelines
+.github/workflows/ @glastor-dev
+.gitlab-ci.yml @glastor-dev
+.circleci/ @glastor-dev
+azure-pipelines.yml @glastor-dev
+
+# Package managers and dependencies
+package.json @glastor-dev
+package-lock.json @glastor-dev
+yarn.lock @glastor-dev
+requirements.txt @glastor-dev
+Pipfile @glastor-dev
+Pipfile.lock @glastor-dev
+pyproject.toml @glastor-dev
+poetry.lock @glastor-dev
+Gemfile @glastor-dev
+Gemfile.lock @glastor-dev
+composer.json @glastor-dev
+composer.lock @glastor-dev
+
+# Build and deployment configuration
+Dockerfile @glastor-dev
+docker-compose.yml @glastor-dev
+.dockerignore @glastor-dev
+Makefile @glastor-dev
+CMakeLists.txt @glastor-dev
+build.gradle @glastor-dev
+pom.xml @glastor-dev
+
+# Environment and secrets (templates only - actual secrets should never be committed)
+.env.example @glastor-dev
+.env.template @glastor-dev
+config.example.json @glastor-dev
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SOURCE CODE
+# ─────────────────────────────────────────────────────────────────────────────
+# Core application source code requires review from lead developers
+
+/src/ @glastor-dev
+/lib/ @glastor-dev
+/app/ @glastor-dev
+/core/ @glastor-dev
+
+# Language-specific source directories
+*.py @glastor-dev
+*.js @glastor-dev
+*.ts @glastor-dev
+*.jsx @glastor-dev
+*.tsx @glastor-dev
+*.java @glastor-dev
+*.go @glastor-dev
+*.rs @glastor-dev
+*.rb @glastor-dev
+*.php @glastor-dev
+*.cpp @glastor-dev
+*.c @glastor-dev
+*.h @glastor-dev
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SECURITY & COMPLIANCE
+# ─────────────────────────────────────────────────────────────────────────────
+# Security-sensitive files require mandatory review from security team
+
+SECURITY.md @glastor-dev
+/security/ @glastor-dev
+
+# Security scanning configurations
+.snyk @glastor-dev
+.whitesource @glastor-dev
+sonar-project.properties @glastor-dev
+
+# Compliance and legal
+LICENSE @glastor-dev
+COPYING @glastor-dev
+NOTICE @glastor-dev
+COPYRIGHT @glastor-dev
+
+# ─────────────────────────────────────────────────────────────────────────────
+# INFRASTRUCTURE & DEPLOYMENT
+# ─────────────────────────────────────────────────────────────────────────────
+# Infrastructure-as-code requires DevOps/SRE review
+
+/infrastructure/ @glastor-dev
+/terraform/ @glastor-dev
+/ansible/ @glastor-dev
+/k8s/ @glastor-dev
+/kubernetes/ @glastor-dev
+/helm/ @glastor-dev
+*.tf @glastor-dev
+*.tfvars @glastor-dev
+
+# Cloud provider configurations
+/aws/ @glastor-dev
+/azure/ @glastor-dev
+/gcp/ @glastor-dev
+serverless.yml @glastor-dev
+cloudformation.yml @glastor-dev
+
+# ─────────────────────────────────────────────────────────────────────────────
+# TESTING
+# ─────────────────────────────────────────────────────────────────────────────
+# Test files and configurations require QA team review
+
+/tests/ @glastor-dev
+/test/ @glastor-dev
+/__tests__/ @glastor-dev
+*.test.js @glastor-dev
+*.spec.js @glastor-dev
+*.test.ts @glastor-dev
+*.spec.ts @glastor-dev
+*_test.py @glastor-dev
+*_test.go @glastor-dev
+pytest.ini @glastor-dev
+jest.config.js @glastor-dev
+.eslintrc @glastor-dev
+.eslintrc.json @glastor-dev
+
+# ─────────────────────────────────────────────────────────────────────────────
+# FRONTEND ASSETS
+# ─────────────────────────────────────────────────────────────────────────────
+# UI/UX assets require frontend team and design review
+
+/public/ @glastor-dev
+/static/ @glastor-dev
+/assets/ @glastor-dev
+*.css @glastor-dev
+*.scss @glastor-dev
+*.sass @glastor-dev
+*.less @glastor-dev
+
+# Design files
+*.fig @glastor-dev
+*.sketch @glastor-dev
+*.xd @glastor-dev
+
+# ─────────────────────────────────────────────────────────────────────────────
+# DATABASE
+# ─────────────────────────────────────────────────────────────────────────────
+# Database schemas and migrations require database team review
+
+/migrations/ @glastor-dev
+/db/ @glastor-dev
+/database/ @glastor-dev
+*.sql @glastor-dev
+schema.prisma @glastor-dev
+models.py @glastor-dev
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SCRIPTS & AUTOMATION
+# ─────────────────────────────────────────────────────────────────────────────
+# Automation scripts require DevOps review to prevent unintended side effects
+
+/scripts/ @glastor-dev
+*.sh @glastor-dev
+*.bash @glastor-dev
+*.ps1 @glastor-dev
+*.bat @glastor-dev
+*.cmd @glastor-dev
+
+# ─────────────────────────────────────────────────────────────────────────────
+# EXAMPLES & TEMPLATES
+# ─────────────────────────────────────────────────────────────────────────────
+# Example code and templates for community education
+
+/examples/ @glastor-dev
+/templates/ @glastor-dev
+/samples/ @glastor-dev
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SPECIAL FILES
+# ─────────────────────────────────────────────────────────────────────────────
+
+# This file itself requires maintainer review to prevent accidental ownership changes
+CODEOWNERS @glastor-dev
+
+# Funding configuration
+FUNDING.yml @glastor-dev
+.github/FUNDING.yml @glastor-dev
+
+# Issue and PR templates
+.github/ISSUE_TEMPLATE/ @glastor-dev
+.github/PULL_REQUEST_TEMPLATE.md @glastor-dev
+
+# Community health files
+CODE_OF_CONDUCT.md @glastor-dev
+SUPPORT.md @glastor-dev
+GOVERNANCE.md @glastor-dev
+
+# ─────────────────────────────────────────────────────────────────────────────
+# TEAM-SPECIFIC OWNERSHIP (Example - Uncomment and customize for organizations)
+# ─────────────────────────────────────────────────────────────────────────────
+
+# Backend team owns API and server logic
+# /api/ @glastor-dev @org/backend-team
+# /server/ @glastor-dev @org/backend-team
+
+# Frontend team owns UI components
+# /components/ @glastor-dev @org/frontend-team
+# /pages/ @glastor-dev @org/frontend-team
+
+# Security team must approve security-critical changes
+# /auth/ @glastor-dev @org/security-team
+# /encryption/ @glastor-dev @org/security-team
+
+# Data team owns analytics and data pipeline
+# /analytics/ @glastor-dev @org/data-team
+# /pipelines/ @glastor-dev @org/data-team
+
+# Mobile team owns mobile app code
+# /mobile/ @glastor-dev @org/mobile-team
+# /ios/ @glastor-dev @org/mobile-team
+# /android/ @glastor-dev @org/mobile-team
+
+# ─────────────────────────────────────────────────────────────────────────────
+# EXTERNAL CONTRIBUTORS
+# ─────────────────────────────────────────────────────────────────────────────
+
+# For open-source projects, you may want to assign ownership to external
+# maintainers for specific modules or features they've contributed
+
+# Example: Feature contributed by external maintainer
+# /features/external-integration/ @glastor-dev @external-contributor
+
+# ─────────────────────────────────────────────────────────────────────────────
+# OPTIONAL OWNERSHIP (No Required Review)
+# ─────────────────────────────────────────────────────────────────────────────
+
+# Some files may not require mandatory review but should have a designated owner
+# for questions and guidance (use team mentions without branch protection)
+
+# Localization files - translators can contribute freely
+# /locales/ @glastor-dev @org/i18n-team
+
+# Community contributions area
+# /community/ @glastor-dev @org/community-managers
+
+# ═══════════════════════════════════════════════════════════════════════════
+# USAGE NOTES
+# ═══════════════════════════════════════════════════════════════════════════
+#
+# SYNTAX:
+# pattern @username @org/team-name
+#
+# PATTERNS:
+# - Use * for wildcards
+# - Use ** for recursive directory matching
+# - Use / at the end to match directories only
+# - Patterns are case-sensitive
+#
+# BEST PRACTICES:
+# 1. Start with broad default ownership, then add specific rules
+# 2. Use team mentions (@org/team) instead of individuals for scalability
+# 3. Balance thoroughness with review burden - too many owners slow development
+# 4. Document why certain files have specific ownership requirements
+# 5. Review and update this file quarterly as team structure evolves
+# 6. Test changes by creating a draft PR to see who gets auto-assigned
+#
+# BRANCH PROTECTION:
+# To enforce code owner approval:
+# 1. Go to Settings → Branches → Branch protection rules
+# 2. Add rule for main/master branch
+# 3. Enable "Require review from Code Owners"
+#
+# TROUBLESHOOTING:
+# - If code owners aren't being assigned, check GitHub username/team spelling
+# - Ensure teams have repository access (Settings → Collaborators & teams)
+# - Verify the CODEOWNERS file is in the root, docs/, or .github/ directory
+# - Check GitHub Actions logs for CODEOWNERS syntax errors
+#
+# ═══════════════════════════════════════════════════════════════════════════
+# END OF CODE OWNERS CONFIGURATION
+# ═══════════════════════════════════════════════════════════════════════════
