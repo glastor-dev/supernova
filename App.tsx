@@ -5,6 +5,16 @@ import { Theme, AudioMetadata, VisualizerMode } from './types';
 import { DEFAULT_THEMES, FFT_SIZE } from './constants';
 import { generateThemeFromDescription } from './services/geminiService';
 
+const clamp01 = (value: number) => Math.max(0, Math.min(1, value));
+
+const formatTime = (seconds: number) => {
+  if (!Number.isFinite(seconds) || seconds <= 0) return '0:00';
+  const totalSeconds = Math.floor(seconds);
+  const minutes = Math.floor(totalSeconds / 60);
+  const secs = totalSeconds % 60;
+  return `${minutes}:${secs.toString().padStart(2, '0')}`;
+};
+
 const App: React.FC = () => {
   const [theme, setTheme] = useState<Theme>(DEFAULT_THEMES[0]);
   const [audioFile, setAudioFile] = useState<File | null>(null);
@@ -22,6 +32,8 @@ const App: React.FC = () => {
   const [prompt, setPrompt] = useState('');
   const [showUI, setShowUI] = useState(true);
   const [analyser, setAnalyser] = useState<AnalyserNode | null>(null);
+  const [volume, setVolume] = useState(0.7);
+  const [isRepeat, setIsRepeat] = useState(false);
 
   const audioRef = useRef<HTMLAudioElement>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
@@ -54,19 +66,38 @@ const App: React.FC = () => {
         title: file.name.replace(/\.[^/.]+$/, "").toUpperCase(),
         artist: 'EXTERNAL AUDIO SOURCE'
       }));
-      setIsPaused(false);
       if (audioContextRef.current?.state === 'suspended') {
         audioContextRef.current.resume();
       }
     }
   };
 
-  const updateProgress = () => {
-    if (audioRef.current) {
-      const p = audioRef.current.currentTime / audioRef.current.duration;
-      setProgress(p || 0);
-    }
-  };
+  const updateProgress = useCallback(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    const duration = Number.isFinite(audio.duration) ? audio.duration : 0;
+    const currentTime = Number.isFinite(audio.currentTime) ? audio.currentTime : 0;
+    const ratio = duration > 0 ? clamp01(currentTime / duration) : 0;
+
+    setProgress(ratio);
+    setMetadata(prev => ({
+      ...prev,
+      duration,
+      currentTime
+    }));
+  }, []);
+
+  const handleSeek = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (!Number.isFinite(audio.duration) || audio.duration <= 0) return;
+
+    const rect = e.currentTarget.getBoundingClientRect();
+    const ratio = clamp01((e.clientX - rect.left) / rect.width);
+    audio.currentTime = ratio * audio.duration;
+    updateProgress();
+  }, [updateProgress]);
 
   const handleMouseMove = () => {
     setShowUI(true);
@@ -81,11 +112,18 @@ const App: React.FC = () => {
       const url = URL.createObjectURL(audioFile);
       audioRef.current.src = url;
       setupAudio();
-      audioRef.current.play();
-      setIsPaused(false);
+      audioRef.current.volume = volume;
+      audioRef.current.play().catch(() => {
+        // Autoplay can be blocked; rely on user interaction.
+        setIsPaused(true);
+      });
       return () => URL.revokeObjectURL(url);
     }
-  }, [audioFile, setupAudio]);
+  }, [audioFile, setupAudio, volume]);
+
+  useEffect(() => {
+    if (audioRef.current) audioRef.current.volume = volume;
+  }, [volume]);
 
   return (
     <div 
@@ -198,11 +236,25 @@ const App: React.FC = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
               </svg>
             </label>
+
+            <button
+              type="button"
+              onClick={() => setIsRepeat(prev => !prev)}
+              aria-pressed={isRepeat}
+              aria-label={isRepeat ? 'Repeat on' : 'Repeat off'}
+              className="w-12 h-12 flex items-center justify-center rounded-2xl cursor-pointer transition-all border border-white/10 text-white group"
+              style={{ backgroundColor: isRepeat ? theme.primaryColor : 'rgba(255,255,255,0.05)' }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h10v4m0 0l2-2m-2 2l-2-2M17 17H7v-4m0 0l-2 2m2-2l2 2" />
+              </svg>
+            </button>
+
             <div className="flex flex-col">
                <span className="text-[10px] font-black text-white/20 uppercase tracking-widest">Master volume</span>
                <input 
-                type="range" min="0" max="1" step="0.01" defaultValue="0.7"
-                onChange={(e) => { if (audioRef.current) audioRef.current.volume = parseFloat(e.target.value); }}
+                  type="range" min="0" max="1" step="0.01" value={volume}
+                  onChange={(e) => setVolume(parseFloat(e.target.value))}
                 className="w-32 h-1 bg-white/10 rounded-full appearance-none accent-white cursor-pointer"
                 style={{ accentColor: theme.primaryColor }}
               />
@@ -211,9 +263,16 @@ const App: React.FC = () => {
 
           <button 
             onClick={() => {
-              if (isPaused) audioRef.current?.play();
-              else audioRef.current?.pause();
-              setIsPaused(!isPaused);
+              const audio = audioRef.current;
+              if (!audio) return;
+
+              if (audio.paused) {
+                audio.play().catch(() => {
+                  setIsPaused(true);
+                });
+              } else {
+                audio.pause();
+              }
             }}
             className="w-20 h-20 flex items-center justify-center rounded-full hover:scale-105 active:scale-95 transition-all shadow-2xl group"
             style={{ backgroundColor: theme.primaryColor, color: '#000' }}
@@ -227,17 +286,22 @@ const App: React.FC = () => {
 
           <div className="flex flex-col items-end gap-1">
             <span className="text-[10px] font-black text-white/20 uppercase tracking-widest">Progress</span>
-            <div className="w-48 h-1 bg-white/10 rounded-full overflow-hidden">
+            <div 
+              className="w-48 h-1 bg-white/10 rounded-full overflow-hidden pointer-events-auto cursor-pointer"
+              onClick={handleSeek}
+              role="slider"
+              aria-label="Track progress"
+              aria-valuemin={0}
+              aria-valuemax={metadata.duration || 0}
+              aria-valuenow={metadata.currentTime || 0}
+            >
                <div 
                 className="h-full transition-all duration-300" 
                 style={{ width: `${progress * 100}%`, backgroundColor: theme.primaryColor }} 
                />
             </div>
             <span className="text-[8px] font-mono text-white/40">
-              {Math.floor((audioRef.current?.currentTime || 0) / 60)}:
-              {Math.floor((audioRef.current?.currentTime || 0) % 60).toString().padStart(2, '0')} / 
-              {Math.floor((audioRef.current?.duration || 0) / 60)}:
-              {Math.floor((audioRef.current?.duration || 0) % 60).toString().padStart(2, '0')}
+              {formatTime(metadata.currentTime)} / {formatTime(metadata.duration)}
             </span>
           </div>
         </div>
@@ -279,7 +343,21 @@ const App: React.FC = () => {
 
       <audio 
         ref={audioRef} 
-        onEnded={() => setIsPaused(true)} 
+        loop={isRepeat}
+        onPlay={() => setIsPaused(false)}
+        onPause={() => setIsPaused(true)}
+        onLoadedMetadata={updateProgress}
+        onDurationChange={updateProgress}
+        onEnded={() => {
+          if (isRepeat) return;
+
+          setIsPaused(true);
+          setProgress(0);
+          setMetadata(prev => ({
+            ...prev,
+            currentTime: 0
+          }));
+        }} 
         onTimeUpdate={updateProgress}
       />
     </div>
